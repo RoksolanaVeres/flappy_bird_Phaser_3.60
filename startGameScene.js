@@ -1,10 +1,22 @@
-class StartGameScene extends Phaser.Scene {
+import { Global } from "./global.js";
+import { Text } from "./additionalElements.js";
+
+export class StartGameScene extends Phaser.Scene {
+  backgroundMusic;
   constructor() {
     super({ key: "StartGameScene" });
   }
 
   preload() {
     this.load.image("sky", "./assets/sprites/sky.jpg");
+
+    // кнопки для рівнів
+    this.load.image("level1_button", "./assets/sprites/level1_button.png");
+    this.load.image("level2_button", "./assets/sprites/level2_button.png");
+    this.load.image("level3_button", "./assets/sprites/level3_button.png");
+
+    // музика
+    this.load.audio("music", "./assets/audio/background_music_1.wav");
 
     // додаємо всі пташки
 
@@ -62,6 +74,42 @@ class StartGameScene extends Phaser.Scene {
   create() {
     this.add.image(400, 300, "sky");
 
+    // вибір рівня
+    this.levelOneButton = this.add.image(280, 150, "level1_button");
+    this.levelTwoButton = this.add.image(380, 150, "level2_button");
+    this.levelThreeButton = this.add.image(480, 150, "level3_button");
+
+    this.levelOneButton
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        Global.level = 1;
+        this.levelOneButton.setTint(0x74ffac);
+        this.levelTwoButton.clearTint();
+        this.levelThreeButton.clearTint();
+      });
+
+    this.levelTwoButton
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        Global.level = 2;
+        this.levelTwoButton.setTint(0x74ffac);
+        this.levelOneButton.clearTint();
+        this.levelThreeButton.clearTint();
+      });
+
+    this.levelThreeButton
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        Global.level = 3;
+        this.levelThreeButton.setTint(0x74ffac);
+        this.levelOneButton.clearTint();
+        this.levelTwoButton.clearTint();
+      });
+
+    // фонова музика
+    this.backgroundMusic = this.sound.add("music", { loop: true });
+    this.backgroundMusic.play();
+
     // створюємо пташки і додаємо логіку, щоб при кліку на пташку вона ставала гравцем в грі
     // додаємо анімацію кожній пташці
 
@@ -70,8 +118,9 @@ class StartGameScene extends Phaser.Scene {
       .sprite(100, 350, "bird", 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        chosenBird = "bird";
+        Global.chosenBird = "bird";
         this.scene.start("GameScene");
+        this.backgroundMusic.stop();
       });
 
     this.anims.create({
@@ -89,8 +138,9 @@ class StartGameScene extends Phaser.Scene {
       .sprite(250, 350, "blueBird", 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        chosenBird = "blueBird";
+        Global.chosenBird = "blueBird";
         this.scene.start("GameScene");
+        this.backgroundMusic.stop();
       });
 
     this.anims.create({
@@ -108,8 +158,9 @@ class StartGameScene extends Phaser.Scene {
       .sprite(430, 350, "yellowBirdCap", 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        chosenBird = "yellowBirdCap";
+        Global.chosenBird = "yellowBirdCap";
         this.scene.start("GameScene");
+        this.backgroundMusic.stop();
       });
 
     this.anims.create({
@@ -127,8 +178,9 @@ class StartGameScene extends Phaser.Scene {
       .sprite(620, 350, "brownBirdCap", 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        chosenBird = "brownBirdCap";
+        Global.chosenBird = "brownBirdCap";
         this.scene.start("GameScene");
+        this.backgroundMusic.stop();
       });
 
     this.anims.create({
@@ -146,8 +198,9 @@ class StartGameScene extends Phaser.Scene {
       .sprite(150, 460, "yellowBird", 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        chosenBird = "yellowBird";
+        Global.chosenBird = "yellowBird";
         this.scene.start("GameScene");
+        this.backgroundMusic.stop();
       });
 
     this.anims.create({
@@ -165,8 +218,9 @@ class StartGameScene extends Phaser.Scene {
       .sprite(350, 460, "brownBirdHair", 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        chosenBird = "brownBirdHair";
+        Global.chosenBird = "brownBirdHair";
         this.scene.start("GameScene");
+        this.backgroundMusic.stop();
       });
 
     this.anims.create({
@@ -184,8 +238,9 @@ class StartGameScene extends Phaser.Scene {
       .sprite(530, 460, "pinkBird", 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        chosenBird = "pinkBird";
+        Global.chosenBird = "pinkBird";
         this.scene.start("GameScene");
+        this.backgroundMusic.stop();
       });
 
     this.anims.create({
@@ -201,36 +256,23 @@ class StartGameScene extends Phaser.Scene {
     this.physics.pause();
 
     // текст
-
     this.flappyBirdHeader = new Text(
-      600,
-      200,
-      "Flappy Bird",
-      "90px",
-      "#317647",
+      550,
+      90,
+      "Choose your level:",
+      "40px",
+      "#2B5A3E",
       this
     );
 
     this.startGameInstructions = new Text(
-      610,
+      550,
       270,
-      "Choose your bird to start the game",
-      "30px",
+      "Choose your bird:",
+      "40px",
       "#EB5F03",
       this
     );
-
-    // перейти до гри
-
-    //   this.input.keyboard.on(
-    //     "keyup",
-    //     function (event) {
-    //       if (event.key == "Enter") {
-    //         this.scene.start("GameScene");
-    //       }
-    //     },
-    //     this
-    //   );
   }
 
   update() {
@@ -241,5 +283,16 @@ class StartGameScene extends Phaser.Scene {
     this.brownBirdHair.anims.play("fly-brownBirdHair", true);
     this.yellowBird.anims.play("fly-yellowBird", true);
     this.pinkBird.anims.play("fly-pinkBird", true);
+
+    // виключити музику
+    this.input.keyboard.on(
+      "keyup",
+      function (event) {
+        if (event.code == "Space") {
+          this.backgroundMusic.stop();
+        }
+      },
+      this
+    );
   }
 }
