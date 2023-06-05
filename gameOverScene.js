@@ -38,6 +38,7 @@ export class GameOverScene extends Phaser.Scene {
       .on("pointerdown", () => {
         this.scene.start("StartGameScene");
         this.gameOverMusic.stop();
+        Global.level = 1;
       });
 
     this.homeButton
