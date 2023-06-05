@@ -70,9 +70,9 @@ export class GameScene extends Phaser.Scene {
     }
 
     // звуки
-    this.hitSound = this.sound.add("hit");
-    this.getPointSound = this.sound.add("point");
-    this.flapSound = this.sound.add("flap");
+    this.hitSound = this.sound.add("hit", { volume: 0.3 });
+    this.getPointSound = this.sound.add("point", { volume: 0.3 });
+    this.flapSound = this.sound.add("flap", { volume: 0.3 });
 
     // обираємо рандомний фон
     this.add.image(400, 300, `background${Phaser.Math.Between(1, 12)}`);
@@ -168,10 +168,10 @@ export class GameScene extends Phaser.Scene {
       this.velosityDownwards = 150;
       this.velosityUpwards = -190;
     } else if (Global.level === 2) {
-      this.velosityDownwards = 200;
+      this.velosityDownwards = 210;
       this.velosityUpwards = -240;
     } else {
-      this.velosityDownwards = 230;
+      this.velosityDownwards = 240;
       this.velosityUpwards = -270;
     }
 

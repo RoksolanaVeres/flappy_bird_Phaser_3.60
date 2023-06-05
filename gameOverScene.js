@@ -67,7 +67,10 @@ export class GameOverScene extends Phaser.Scene {
     );
 
     // фонова музика
-    this.gameOverMusic = this.sound.add("resultsMusic", { loop: true });
+    this.gameOverMusic = this.sound.add("resultsMusic", {
+      loop: true,
+      volume: 0.2,
+    });
     this.gameOverMusic.play();
 
     // виключити музику

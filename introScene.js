@@ -1,7 +1,6 @@
 import { Text } from "./additionalElements.js";
 
 export class IntroScene extends Phaser.Scene {
-  birdsChirpingSound;
   constructor() {
     super({ key: "IntroScene" });
   }
@@ -15,9 +14,6 @@ export class IntroScene extends Phaser.Scene {
     // кнопки
     this.load.image("about_button", "./assets/sprites/about_button.png");
     this.load.image("next_button", "./assets/sprites/next_button.png");
-
-    // музика
-    this.load.audio("birdsChirping", "./assets/audio/birds_chirping_sound.wav");
   }
 
   create() {
@@ -31,14 +27,12 @@ export class IntroScene extends Phaser.Scene {
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
         this.scene.start("AboutScene");
-        this.birdsChirpingSound.stop();
       });
 
     this.nextButton
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
         this.scene.start("StartGameScene");
-        this.birdsChirpingSound.stop();
       });
 
     // текст
@@ -48,21 +42,6 @@ export class IntroScene extends Phaser.Scene {
       "Flappy Bird",
       "70px",
       "#DD0580",
-      this
-    );
-
-    // фонова музика
-    this.birdsChirpingSound = this.sound.add("birdsChirping", { loop: true });
-    this.birdsChirpingSound.play();
-
-    // виключити музику
-    this.input.keyboard.on(
-      "keyup",
-      function (event) {
-        if (event.code == "Space") {
-          this.birdsChirpingSound.stop();
-        }
-      },
       this
     );
   }

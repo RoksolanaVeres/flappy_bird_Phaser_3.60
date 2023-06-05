@@ -107,7 +107,10 @@ export class StartGameScene extends Phaser.Scene {
       });
 
     // фонова музика
-    this.backgroundMusic = this.sound.add("music", { loop: true });
+    this.backgroundMusic = this.sound.add("music", {
+      loop: true,
+      volume: 0.2,
+    });
     this.backgroundMusic.play();
 
     // створюємо пташки і додаємо логіку, щоб при кліку на пташку вона ставала гравцем в грі
